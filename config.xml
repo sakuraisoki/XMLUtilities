@@ -1,0 +1,6 @@
+<Configurations module="GigabitEther" Date="2112/9/3">
+	<IPaddress version="IPv4">
+		192.168.30.100
+	</IPaddress>
+	<port>10030</port>
+</Configurations>
