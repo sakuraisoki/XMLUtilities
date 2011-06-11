@@ -3,7 +3,7 @@ A usage is stated in main_example.cpp.
 To run main_example.cpp, 
 
 $ export XERCESDIR=???	# Where you installed xerces
-$ g++ main_example.cpp -I/usr/local/xerces/include -L/usr/local/xerces/lib -lxerces-c -o main_example
+$ g++ main_example.cpp -I/$XERCESDIR/include -L/$XERCESDIR/lib -lxerces-c -o main_example
 $ ./main_example ???.xml
 
 <Revisions>
