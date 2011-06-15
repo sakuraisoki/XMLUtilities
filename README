@@ -11,4 +11,8 @@ $ ./main_example ???.xml
 	Only ASCII is supprted.
 	Same tags at the same depth/rank/hierarchy are forbidden; younger one is overwritten.
 	</Revision>
+	<Revision comitter="Soki Sakurai" date="2011/06/15">
+	Added XMLoader.getNodes(nodename) returning std::vector, nodes in which have the name "nodename".  
+	Support the same tags at the same depth/rank/hierarchy.
+	</Revision>
 </Revisions>

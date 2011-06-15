@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <map>
+#include <vector>
 #include <stack>
 #include <fstream>
 
@@ -40,11 +41,11 @@ public:
 
 	~XMLNode(){
 		/*
-		std::map<std::string,XMLNode*>::iterator end = children.end();
-		for(std::map<std::string,XMLNode*>::iterator itr = children.begin();itr!=end;itr++){
-			delete itr->second;
-		}
-		*/
+		 std::map<std::string,XMLNode*>::iterator end = children.end();
+		 for(std::map<std::string,XMLNode*>::iterator itr = children.begin();itr!=end;itr++){
+		 delete itr->second;
+		 }
+		 */
 	}
 
 	void clearAll(){
@@ -56,7 +57,7 @@ public:
 
 private:
 	std::string nodename;
-	std::map<std::string,XMLNode*> children;
+	std::multimap<std::string,XMLNode*> children;
 	int NumberOfChildren;
 
 	std::map<std::string,std::string> attributes;
@@ -68,33 +69,33 @@ private:
 public:
 	void dump(std::ostream& Stream, int depth){
 		std::string tabs = "";
-		for(int i=0;i<depth;i++){
-			tabs = tabs + std::string("\t");
+		for(int i = 0;i<depth;i++){
+			tabs = tabs+std::string("\t");
 		}
-		Stream << tabs << nodename;
+		Stream<<tabs<<nodename;
 
-		if(attributes.size() > 0){
+		if(attributes.size()>0){
 			std::map<std::string,std::string>::iterator end_attr = attributes.end();
 			for(std::map<std::string,std::string>::iterator itr = attributes.begin();itr!=end_attr;itr++){
 				if(itr==attributes.begin()){
-					Stream << " (";
+					Stream<<" (";
 				}
 				else{
-					Stream << ", ";
+					Stream<<", ";
 				}
-				Stream << itr->first << "=" << itr->second;
+				Stream<<itr->first<<"="<<itr->second;
 			}
-			Stream << ")";
+			Stream<<")";
 		}
-		Stream << std::endl;
+		Stream<<std::endl;
 
 		if(value!=""){
-			Stream << tabs << "\t" << value << std::endl;
+			Stream<<tabs<<"\t"<<value<<std::endl;
 		}
 
 		std::map<std::string,XMLNode*>::iterator end_chld = children.end();
 		for(std::map<std::string,XMLNode*>::iterator itr = children.begin();itr!=end_chld;itr++){
-			itr->second->dump(Stream, depth+1);
+			itr->second->dump(Stream,depth+1);
 		}
 	}
 
@@ -115,17 +116,33 @@ public:
 		return NumberOfChildren;
 	}
 	void addchild(std::string childname, XMLNode* childnode){
+		/*
 		std::map<std::string,XMLNode*>::iterator itr;
 		itr = children.find(childname);
 		if(itr!=children.end()){
 			children.erase(itr);
 		}
+		*/
 		children.insert(std::pair<std::string,XMLNode*>(childname,childnode));
 		NumberOfChildren++;
 	}
 
 	XMLNode* getChild(std::string childname){
-		return children[childname];
+		std::pair<std::multimap<std::string,XMLNode*>::iterator, std::multimap<std::string,XMLNode*>::iterator> range;
+		XMLNode* ret;
+		range = children.equal_range(childname);
+		ret = (range.first)->second;
+		return ret;
+	}
+
+	std::vector<XMLNode*> getChildren(std::string childname){
+		std::pair<std::multimap<std::string,XMLNode*>::iterator, std::multimap<std::string,XMLNode*>::iterator> range;
+		std::vector<XMLNode*> ret;
+		ret.clear();
+		for(range=children.equal_range(childname); range.first!=range.second; range.first++){
+			ret.push_back((range.first)->second);
+		}
+		return ret;
 	}
 
 	void clearChild(){
@@ -149,7 +166,8 @@ public:
 };
 
 struct XMLHandler: public xercesc::DefaultHandler{
-	XMLHandler(XMLNode** top) : topnode(top){
+	XMLHandler(XMLNode** top) :
+		topnode(top){
 		XMLNode* dummytopnode = new XMLNode("DUMMYTOPNODE");
 		nodestack.push(dummytopnode);
 	}
@@ -187,7 +205,7 @@ void XMLHandler::startElement(const XMLCh* const uri, const XMLCh* const localna
 void XMLHandler::characters(const XMLCh* const chars, const XMLSize_t length){
 	char* name = xercesc::XMLString::transcode(chars);
 	std::string val = std::string(name);
-	buf = buf + val;
+	buf = buf+val;
 	xercesc::XMLString::release(&name);
 }
 
@@ -257,7 +275,8 @@ public:
 
 		std::string value = "";
 
-		if(whole_tag.substr(0,1)=="/")whole_tag.erase(1,0);
+		if(whole_tag.substr(0,1)=="/")
+			whole_tag.erase(1,0);
 		XMLNode* target = topnode;
 
 		std::string current_tag;
@@ -268,7 +287,7 @@ public:
 			if(depth!=0){
 				target = target->getChild(current_tag);
 			}
-			else if(current_tag != target->getTagName()){
+			else if(current_tag!=target->getTagName()){
 				throw XMLLoaderException(NoSuchTag);
 			}
 			whole_tag.erase(0,slash_pos+1);
@@ -287,6 +306,40 @@ public:
 			value = target->getValue();
 		}
 		return value;
+	}
+
+	std::vector<XMLNode*> getNodes(std::string nodename){
+		if(topnode==NULL)
+			throw XMLLoaderException(NoSuchTag);
+
+		std::string whole_tag = nodename;
+		if(whole_tag.substr(whole_tag.size(),1)=="/")
+			throw XMLLoaderException(NoSuchTag);
+		if(whole_tag.find(".",0)!=std::string::npos)
+			throw XMLLoaderException(NoSuchTag);
+
+		std::vector<XMLNode*> ret;
+		ret.clear();
+
+		if(whole_tag.substr(0,1)=="/")
+			whole_tag.erase(1,0);
+		XMLNode* target = topnode;
+
+		std::string current_tag;
+		size_t slash_pos = 0;
+		int depth = 0;
+		while((slash_pos = whole_tag.find("/",0))!=std::string::npos){
+			current_tag = whole_tag.substr(0,slash_pos);
+			if(depth!=0){
+				target = target->getChild(current_tag);
+			}
+			else if(current_tag!=target->getTagName()){
+				throw XMLLoaderException(NoSuchTag);
+			}
+			whole_tag.erase(0,slash_pos+1);
+			depth++;
+		}
+		return target->getChildren(whole_tag);
 	}
 
 private:
