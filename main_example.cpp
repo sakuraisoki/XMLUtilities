@@ -10,27 +10,6 @@
 #include "XMLLoader.hpp"
 using namespace std;
 
-class SOO {
-public:
-	SOO(){
-		g = 22;
-	}
-	int getInt(){return g;}
-private:
-	int g;
-};
-
-class ZOO {
-public:
-	ZOO(){
-		sio = new SOO();
-	}
-	SOO* getSOO(){return sio;}
-private:
-	SOO* sio;
-};
-
-
 int main(int argc, const char *argv[]){
 	if(argc<2){
 		cout<<"Specify an XMLfile." << endl;
