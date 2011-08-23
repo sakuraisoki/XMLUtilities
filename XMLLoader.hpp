@@ -257,6 +257,10 @@ private:
 	xercesc::SAX2XMLReader* parser;
 	XMLHandler *handler;
 public:
+	std::vector<XMLNode*> operator [](std::string tag_hierarchy){
+		return getNodes(tag_hierarchy);
+	}
+public:
 	XMLNode* getTopNode(){
 		return topnode;
 	}
