@@ -109,6 +109,34 @@ public:
 	std::string getValue(){
 		return value;
 	}
+	signed char getValueAsINT8(){
+		return Caster::strToInt8(value);
+	}
+	unsigned char getValueAsUINT8(){
+		return Caster::strToUInt8(value);
+	}
+	short getValueAsINT16(){
+		return Caster::strToInt16(value);
+	}
+	unsigned short getValueAsUINT16(){
+		return Caster::strToUInt16(value);
+	}
+	int getValueAsINT32(){
+		return Caster::strToInt32(value);
+	}
+	unsigned int getValueAsUINT32(){
+		return Caster::strToUInt32(value);
+	}
+	float getValueAsFloating32(){
+		return Caster::strToFloating32(value);
+	}
+	double getValueAsFloating64(){
+		return Caster::strToFloating64(value);
+	}
+	long double getValueAsFloating128(){
+		return Caster::strToFloating128(value);
+	}
+
 	std::string getTagName(){
 		return nodename;
 	}
