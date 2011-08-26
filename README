@@ -4,7 +4,6 @@ To run main_example.cpp,
 
 $ export XERCESDIR=???	# Where you installed xerces
 $ g++ main_example.cpp -I/$XERCESDIR/include -L/$XERCESDIR/lib -lxerces-c -o main_example
-$ ./main_example ???.xml
 
 <Revisions>
 	<Revision comitter="Soki Sakurai" date="2011/06/12">
@@ -14,5 +13,8 @@ $ ./main_example ???.xml
 	<Revision comitter="Soki Sakurai" date="2011/06/15">
 	Added XMLoader.getNodes(nodename) returning std::vector, nodes in which have the name "nodename".  
 	Support the same tags at the same depth/rank/hierarchy.
+	</Revision>
+	<Revision comitter="Soki Sakurai" date="2011/08/25">
+        Added Caster.hpp to get values as integer or floating.
 	</Revision>
 </Revisions>
