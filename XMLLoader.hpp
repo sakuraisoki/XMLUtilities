@@ -109,22 +109,22 @@ public:
 	std::string getValue(){
 		return value;
 	}
-	signed char getValueAsINT8(){
+	signed char getValueAsInt8(){
 		return Caster::strToInt8(value);
 	}
-	unsigned char getValueAsUINT8(){
+	unsigned char getValueAsUInt8(){
 		return Caster::strToUInt8(value);
 	}
-	short getValueAsINT16(){
+	short getValueAsInt16(){
 		return Caster::strToInt16(value);
 	}
-	unsigned short getValueAsUINT16(){
+	unsigned short getValueAsUInt16(){
 		return Caster::strToUInt16(value);
 	}
-	int getValueAsINT32(){
+	int getValueAsInt32(){
 		return Caster::strToInt32(value);
 	}
-	unsigned int getValueAsUINT32(){
+	unsigned int getValueAsUInt32(){
 		return Caster::strToUInt32(value);
 	}
 	float getValueAsFloating32(){
