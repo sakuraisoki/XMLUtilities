@@ -12,107 +12,215 @@
 
 class Caster{
 public:
+	static unsigned long long HexaexpToUInteger64(std::string str){
+		//suppose "0x" is already cut (str=12FF, for example.)
+		int size = str.size();
+		if(size==0)
+			return 0;
+		char c;
+		unsigned long long ret = 0;
+		unsigned long long order = 1;
+		for(int i = size-1;i>=0;i--){
+			c = str[i];
+			if(c<58){
+				if(47<c){
+					ret += (c-48)*order;
+				}
+				else{
+					return 0;
+				}
+			}
+			else if(c<71){
+				if(64<c){
+					ret += (c-55)*order;
+				}
+				else{
+					return 0;
+				}
+			}
+			else if(c<103){
+				if(96<c){
+					ret += (c-87)*order;
+				}
+				else{
+					return 0;
+				}
+			}
+			order = order<<4;
+		}
+		return ret;
+	}
+
 	static signed char strToInt8(std::string str){
 		std::istringstream stream(str);
-		signed char ret=0;
+		signed char ret = 0;
 		if(str.size()!=0){
-			stream >> ret;
+			stream>>ret;
 		}
 		return ret;
 	}
 
 	static unsigned char strToUInt8(std::string str){
+		int size = str.size();
+		if(size==0){
+			return 0;
+		}
+		else if(size > 1){
+			if(str[0]=='0'){
+				if(str[1]=='x'){
+					return (unsigned char)HexaexpToUInteger64(str.substr(2));
+				}
+				else{
+					//octal is yet
+				}
+			}
+			else if(str[size-1]=='h'){
+				return (unsigned char)HexaexpToUInteger64(str.substr(0,size-1));
+			}
+		}
+
 		std::istringstream stream(str);
-		unsigned char ret=0;
+		unsigned char ret = 0;
 		if(str.size()!=0){
-			stream >> ret;
+			stream>>ret;
 		}
 		return ret;
 	}
 
 	static short strToInt16(std::string str){
 		std::istringstream stream(str);
-		short ret=0;
+		short ret = 0;
 		if(str.size()!=0){
-			stream >> ret;
+			stream>>ret;
 		}
 		return ret;
 	}
 
 	static unsigned short strToUInt16(std::string str){
+		int size = str.size();
+		if(size==0){
+			return 0;
+		}
+		else if(size > 1){
+			if(str[0]=='0'){
+				if(str[1]=='x'){
+					return (unsigned short)HexaexpToUInteger64(str.substr(2));
+				}
+				else{
+					//octal is yet
+				}
+			}
+			else if(str[size-1]=='h'){
+				return (unsigned short)HexaexpToUInteger64(str.substr(0,size-1));
+			}
+		}
+
 		std::istringstream stream(str);
-		unsigned short ret=0;
+		unsigned short ret = 0;
 		if(str.size()!=0){
-			stream >> ret;
+			stream>>ret;
 		}
 		return ret;
 	}
 
 	static int strToInt32(std::string str){
 		std::istringstream stream(str);
-		int ret=0;
+		int ret = 0;
 		if(str.size()!=0){
-			stream >> ret;
+			stream>>ret;
 		}
 		return ret;
 	}
 
 	static unsigned int strToUInt32(std::string str){
+		int size = str.size();
+		if(size==0){
+			return 0;
+		}
+		else if(size > 1){
+			if(str[0]=='0'){
+				if(str[1]=='x'){
+					return (unsigned int)HexaexpToUInteger64(str.substr(2));
+				}
+				else{
+					//octal is yet
+				}
+			}
+			else if(str[size-1]=='h'){
+				return (unsigned int)HexaexpToUInteger64(str.substr(0,size-1));
+			}
+		}
+
 		std::istringstream stream(str);
-		unsigned int ret=0;
+		unsigned int ret = 0;
 		if(str.size()!=0){
-			stream >> ret;
+			stream>>ret;
 		}
 		return ret;
 	}
 
 	static long strToInt64(std::string str){
 		std::istringstream stream(str);
-		long long ret=0;
+		long long ret = 0;
 		if(str.size()!=0){
-			stream >> ret;
+			stream>>ret;
 		}
 		return ret;
 	}
 
 	static unsigned long long strToUInt64(std::string str){
+		int size = str.size();
+		if(size==0){
+			return 0;
+		}
+		else if(size > 1){
+			if(str[0]=='0'){
+				if(str[1]=='x'){
+					return HexaexpToUInteger64(str.substr(2));
+				}
+				else{
+					//octal is yet
+				}
+			}
+			else if(str[size-1]=='h'){
+				return HexaexpToUInteger64(str.substr(0,size-1));
+			}
+		}
+
 		std::istringstream stream(str);
-		unsigned long long ret=0;
+		unsigned long long ret = 0;
 		if(str.size()!=0){
-			stream >> ret;
+			stream>>ret;
 		}
 		return ret;
 	}
 
-
 	static float strToFloating32(std::string str){
 		std::istringstream stream(str);
-		float ret=0.0;
+		float ret = 0.0;
 		if(str.size()!=0){
-			stream >> ret;
+			stream>>ret;
 		}
 		return ret;
 	}
 
 	static double strToFloating64(std::string str){
 		std::istringstream stream(str);
-		double ret=0.0;
+		double ret = 0.0;
 		if(str.size()!=0){
-			stream >> ret;
+			stream>>ret;
 		}
 		return ret;
 	}
 
 	static long double strToFloating128(std::string str){
 		std::istringstream stream(str);
-		long double ret=0.0;
+		long double ret = 0.0;
 		if(str.size()!=0){
-			stream >> ret;
+			stream>>ret;
 		}
 		return ret;
 	}
-
-
 
 	/*
 	 static int strToINT32(std::string str){
