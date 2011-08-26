@@ -8,6 +8,8 @@
 #ifndef XMLLOADER_HPP_
 #define XMLLOADER_HPP_
 
+#include "Caster.hpp"
+
 #include <iostream>
 #include <map>
 #include <vector>
@@ -55,6 +57,26 @@ public:
 		}
 	}
 
+public:
+	/*
+	friend std::vector<XMLNode*> operator < (std::vector<XMLNode*> parent,std::string childname){
+		if(parent.size() > 1){
+			std::vector<XMLNode*> buf,allchildren;
+			for(unsigned int i=0;i<parent.size();i++){
+				buf = parent.at(i)->getChildren(childname);
+				for(unsigned int j=0;j<buf.size();j++){
+					allchildren.push_back(buf.at(i));
+				}
+			}
+			return allchildren;
+		}
+		else{
+			return parent.at(0)->getChildren(childname);
+		}
+	}
+	*/
+
+
 private:
 	std::string nodename;
 	std::multimap<std::string,XMLNode*> children;
@@ -65,7 +87,6 @@ private:
 
 	std::string value;
 	bool iselement;
-
 public:
 	void dump(std::ostream& Stream, int depth){
 		std::string tabs = "";
@@ -106,6 +127,7 @@ public:
 		value = valuename;
 		iselement = true;
 	}
+
 	std::string getValue(){
 		return value;
 	}
@@ -137,6 +159,8 @@ public:
 		return Caster::strToFloating128(value);
 	}
 
+
+
 	std::string getTagName(){
 		return nodename;
 	}
@@ -159,6 +183,15 @@ public:
 		std::pair<std::multimap<std::string,XMLNode*>::iterator, std::multimap<std::string,XMLNode*>::iterator> range;
 		XMLNode* ret;
 		range = children.equal_range(childname);
+		/*
+		if(range.first==range.second){
+			std::cout << "non" << std::endl;
+			return NULL;
+		}
+		else{
+			range = children.equal_range(childname);
+		}
+		*/
 		ret = (range.first)->second;
 		return ret;
 	}
@@ -285,12 +318,14 @@ private:
 	xercesc::SAX2XMLReader* parser;
 	XMLHandler *handler;
 public:
-	std::vector<XMLNode*> operator [](std::string tag_hierarchy){
-		return getNodes(tag_hierarchy);
-	}
-public:
 	XMLNode* getTopNode(){
 		return topnode;
+	}
+
+	std::vector<XMLNode*> getTopNodes(){
+		std::vector<XMLNode*> ret;
+		ret.push_back(topnode);
+		return ret;
 	}
 
 	void dumpAll(std::ostream& Stream){
@@ -373,6 +408,13 @@ public:
 		}
 		return target->getChildren(whole_tag);
 	}
+
+public:
+	/*
+	std::vector<XMLNode*> operator<>(std::string nodename){
+
+	}
+	*/
 
 private:
 	class XMLLoaderException{
