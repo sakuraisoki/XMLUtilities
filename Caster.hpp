@@ -51,7 +51,31 @@ public:
 		return ret;
 	}
 
+	static unsigned long long BinaryToUInteger64(std::string str){
+		//suppose "b" is already cut (str=1011, for example.)
+		int size = str.size();
+		if(size==0)
+			return 0;
+		char c;
+		unsigned long long ret = 0;
+		unsigned long long order = 1;
+		for(int i = size-1;i>=0;i--){
+			c = str[i];
+			if(c=='0' || c=='1'){
+				ret += (c-48)*order;
+			}
+			else{
+				return 0;
+			}
+			order = order<<1;
+		}
+		return ret;
+	}
+
 	static signed char strToInt8(std::string str){
+		if(str.find_first_of("eE",0)!=std::string::npos){
+			return (signed char)atof(str.c_str());
+		}
 		std::istringstream stream(str);
 		signed char ret = 0;
 		if(str.size()!=0){
@@ -66,19 +90,20 @@ public:
 			return 0;
 		}
 		else if(size > 1){
-			if(str[0]=='0'){
-				if(str[1]=='x'){
-					return (unsigned char)HexaexpToUInteger64(str.substr(2));
-				}
-				else{
-					//octal is yet
-				}
+			if(str[0]=='0' && str[1]=='x'){
+				return (unsigned char)HexaexpToUInteger64(str.substr(2));
 			}
 			else if(str[size-1]=='h'){
 				return (unsigned char)HexaexpToUInteger64(str.substr(0,size-1));
 			}
+			else if(str[size-1]=='b'){
+				return (unsigned char)BinaryToUInteger64(str.substr(0,size-1));
+			}
 		}
 
+		if(str.find_first_of("eE",0)!=std::string::npos){
+			return (unsigned char)atof(str.c_str());
+		}
 		std::istringstream stream(str);
 		unsigned char ret = 0;
 		if(str.size()!=0){
@@ -88,6 +113,10 @@ public:
 	}
 
 	static short strToInt16(std::string str){
+		if(str.find_first_of("eE",0)!=std::string::npos){
+			return (short)atof(str.c_str());
+		}
+
 		std::istringstream stream(str);
 		short ret = 0;
 		if(str.size()!=0){
@@ -102,19 +131,20 @@ public:
 			return 0;
 		}
 		else if(size > 1){
-			if(str[0]=='0'){
-				if(str[1]=='x'){
-					return (unsigned short)HexaexpToUInteger64(str.substr(2));
-				}
-				else{
-					//octal is yet
-				}
+			if(str[0]=='0' && str[1]=='x'){
+				return (unsigned short)HexaexpToUInteger64(str.substr(2));
 			}
 			else if(str[size-1]=='h'){
 				return (unsigned short)HexaexpToUInteger64(str.substr(0,size-1));
 			}
+			else if(str[size-1]=='b'){
+				return (unsigned short)BinaryToUInteger64(str.substr(0,size-1));
+			}
 		}
 
+		if(str.find_first_of("eE",0)!=std::string::npos){
+			return (unsigned short)atof(str.c_str());
+		}
 		std::istringstream stream(str);
 		unsigned short ret = 0;
 		if(str.size()!=0){
@@ -124,6 +154,9 @@ public:
 	}
 
 	static int strToInt32(std::string str){
+		if(str.find_first_of("eE",0)!=std::string::npos){
+			return (int)atof(str.c_str());
+		}
 		std::istringstream stream(str);
 		int ret = 0;
 		if(str.size()!=0){
@@ -138,19 +171,20 @@ public:
 			return 0;
 		}
 		else if(size > 1){
-			if(str[0]=='0'){
-				if(str[1]=='x'){
-					return (unsigned int)HexaexpToUInteger64(str.substr(2));
-				}
-				else{
-					//octal is yet
-				}
+			if(str[0]=='0' && str[1]=='x'){
+				return (unsigned int)HexaexpToUInteger64(str.substr(2));
 			}
 			else if(str[size-1]=='h'){
 				return (unsigned int)HexaexpToUInteger64(str.substr(0,size-1));
 			}
+			else if(str[size-1]=='b'){
+				return (unsigned int)BinaryToUInteger64(str.substr(0,size-1));
+			}
 		}
 
+		if(str.find_first_of("eE",0)!=std::string::npos){
+			return (unsigned int)atof(str.c_str());
+		}
 		std::istringstream stream(str);
 		unsigned int ret = 0;
 		if(str.size()!=0){
@@ -174,16 +208,14 @@ public:
 			return 0;
 		}
 		else if(size > 1){
-			if(str[0]=='0'){
-				if(str[1]=='x'){
-					return HexaexpToUInteger64(str.substr(2));
-				}
-				else{
-					//octal is yet
-				}
+			if(str[0]=='0' && str[1]=='x'){
+				return HexaexpToUInteger64(str.substr(2));
 			}
 			else if(str[size-1]=='h'){
 				return HexaexpToUInteger64(str.substr(0,size-1));
+			}
+			else if(str[size-1]=='b'){
+				return BinaryToUInteger64(str.substr(0,size-1));
 			}
 		}
 
