@@ -8,31 +8,22 @@
 
 #include <iostream>
 #include "XMLLoader.hpp"
+#include "Caster.hpp"
 using namespace std;
 
-int main(int argc, const char *argv[]){
-	if(argc<2){
-		cout<<"Specify an XMLfile." << endl;
-		return -1;
-	}
-
-	XMLLoader xml = XMLLoader(argv[1]);
+int main(){
+	XMLLoader xml = XMLLoader("config.xml");
 
 	std::vector<XMLNode*> rev;
 	rev = xml.getNodes("Configurations/Configuration");
+//	rev = xml["Configurations/Configuration"];		//This format is also available.
+
 
 	int max=rev.size();
 	for(int i=0;i<max;i++){
-		cout << "IP = " << rev.at(i)->getChild("IPaddress")->getValue() << endl;
+		cout << "port = " << dec << rev.at(i)->getChild("port")->getValueAsUInt32() << endl;
+		cout << "DLA = " << hex << (int)rev.at(i)->getChild("DestinationLogicalAddress")->getValueAsUInt8() << endl;
 	}
-
-	/*
-	cout << "IP address = " << xml.getValueOf("Configurations/IPaddress") << endl;
-	cout << "IP version = " << xml.getValueOf("Configurations/IPaddress.version") << endl;
-
-	cout << "*****Dump All*****" << endl;
-	xml.dumpAll(cout);
-	 */
 
 	return 0;
 }

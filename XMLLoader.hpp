@@ -8,6 +8,8 @@
 #ifndef XMLLOADER_HPP_
 #define XMLLOADER_HPP_
 
+#include "Caster.hpp"
+
 #include <iostream>
 #include <map>
 #include <vector>
@@ -54,6 +56,26 @@ public:
 		}
 	}
 
+public:
+	/*
+	friend std::vector<XMLNode*> operator < (std::vector<XMLNode*> parent,std::string childname){
+		if(parent.size() > 1){
+			std::vector<XMLNode*> buf,allchildren;
+			for(unsigned int i=0;i<parent.size();i++){
+				buf = parent.at(i)->getChildren(childname);
+				for(unsigned int j=0;j<buf.size();j++){
+					allchildren.push_back(buf.at(i));
+				}
+			}
+			return allchildren;
+		}
+		else{
+			return parent.at(0)->getChildren(childname);
+		}
+	}
+	*/
+
+
 private:
 	std::string nodename;
 	std::multimap<std::string, XMLNode*> children;
@@ -64,7 +86,6 @@ private:
 
 	std::string value;
 	bool iselement;
-
 public:
 	void dump(std::ostream& Stream, int depth) {
 		std::string tabs = "";
@@ -104,10 +125,39 @@ public:
 		value = valuename;
 		iselement = true;
 	}
-	std::string getValue() {
+
+	std::string getValue(){
 		return value;
 	}
-	std::string getTagName() {
+	signed char getValueAsInt8(){
+		return Caster::strToInt8(value);
+	}
+	unsigned char getValueAsUInt8(){
+		return Caster::strToUInt8(value);
+	}
+	short getValueAsInt16(){
+		return Caster::strToInt16(value);
+	}
+	unsigned short getValueAsUInt16(){
+		return Caster::strToUInt16(value);
+	}
+	int getValueAsInt32(){
+		return Caster::strToInt32(value);
+	}
+	unsigned int getValueAsUInt32(){
+		return Caster::strToUInt32(value);
+	}
+	float getValueAsFloating32(){
+		return Caster::strToFloating32(value);
+	}
+	double getValueAsFloating64(){
+		return Caster::strToFloating64(value);
+	}
+	long double getValueAsFloating128(){
+		return Caster::strToFloating128(value);
+	}
+
+	std::string getTagName(){
 		return nodename;
 	}
 	int getNumberOfChildren() {
@@ -129,6 +179,15 @@ public:
 		std::pair<std::multimap<std::string, XMLNode*>::iterator, std::multimap<std::string, XMLNode*>::iterator> range;
 		XMLNode* ret;
 		range = children.equal_range(childname);
+		/*
+		if(range.first==range.second){
+			std::cout << "non" << std::endl;
+			return NULL;
+		}
+		else{
+			range = children.equal_range(childname);
+		}
+		*/
 		ret = (range.first)->second;
 		return ret;
 	}
@@ -259,8 +318,14 @@ public:
 		return topnode;
 	}
 
-	void dumpAll(std::ostream& Stream) {
-		topnode->dump(Stream, 0);
+	std::vector<XMLNode*> getTopNodes(){
+		std::vector<XMLNode*> ret;
+		ret.push_back(topnode);
+		return ret;
+	}
+
+	void dumpAll(std::ostream& Stream){
+		topnode->dump(Stream,0);
 	}
 
 	std::string getValueOf(std::string tag_hierarchy) {
@@ -337,8 +402,8 @@ public:
 		return target->getChildren(whole_tag);
 	}
 
-public:
-	class XMLLoaderException {
+private:
+	class XMLLoaderException{
 	public:
 		XMLLoaderException(int type) {
 		}

@@ -4,14 +4,20 @@
 			192.168.30.100
 		</IPaddress>
 		<port>10030</port>
+		<DestinationLogicalAddress>
+			0xfe
+		</DestinationLogicalAddress>
 	</Configuration>
 	<Configuration module="GigabitEther2" Date="2112/9/4">
 		<IPaddress version="IPv6">
 			1234:5678:90ab:cdef:0123:4567:89ab:cdef
 		</IPaddress>
 		<port>10030</port>
+		<DestinationLogicalAddress>
+			85h
+		</DestinationLogicalAddress>
 	</Configuration>
-	
+
 </Configurations>
 
 <Revisions> 
@@ -26,3 +32,11 @@
         third rev.
         </Revision>
 </Revisions>
+
+
+
+
+GitHub Links
+GitHub
+About
+Blog
