@@ -374,10 +374,8 @@ public:
 		int depth = 0;
 		while((slash_pos = whole_tag.find("/",0))!=std::string::npos){
 			current_tag = whole_tag.substr(0,slash_pos);
-			if(depth!=0){
-				target = target->getChild(current_tag);
-			}
-			else if(current_tag!=target->getTagName()){
+			target = target->getChild(current_tag);
+			if(current_tag!=target->getTagName()){
 				throw XMLLoaderException(NoSuchTag);
 			}
 			whole_tag.erase(0,slash_pos+1);
