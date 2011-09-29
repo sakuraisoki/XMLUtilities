@@ -254,6 +254,26 @@ public:
 		return ret;
 	}
 
+
+
+	static std::string IntToStr(long long integer){
+		std::stringstream stream;
+		stream << integer;
+		return stream.str();
+	}
+
+	static std::string UIntToStr(unsigned long long uinteger){
+		std::stringstream stream;
+		stream << uinteger;
+		return stream.str();
+	}
+
+	static std::string FloatingToStr(long double db){
+		std::stringstream stream;
+		stream << db;
+		return stream.str();
+	}
+
 	/*
 	 static int strToINT32(std::string str){
 	 int startpoint = str.size()-1;
