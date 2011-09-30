@@ -81,17 +81,25 @@ public:
 				Stream<<" "<<itr->first<<"=\""<<itr->second<<"\"";
 			}
 		}
-		Stream<<">"<<std::endl;
+//		Stream<<">"<<std::endl;
+		Stream<<">";
 
 		if(value!=""){
-			Stream<<tabs<<"\t"<<value<<std::endl;
+//			Stream<<tabs<<"\t"<<value<<std::endl;
+			Stream<<value;
 		}
 
-		std::map<std::string,XMLNode*>::iterator end_chld = children.end();
-		for(std::map<std::string,XMLNode*>::iterator itr = children.begin();itr!=end_chld;itr++){
-			itr->second->dump(Stream,depth+1);
+		std::map<std::string,XMLNode*>::iterator itr,end_chld = children.end();
+		if((itr=children.begin())!=end_chld){
+			Stream<<std::endl;
+			for(;itr!=end_chld;itr++){
+				itr->second->dump(Stream,depth+1);
+			}
+			Stream<<tabs<<"</"<<nodename<<">"<<std::endl;
 		}
-		Stream<<tabs<<"</"<<nodename<<">"<<std::endl;
+		else{
+			Stream<<"</"<<nodename<<">"<<std::endl;
+		}
 	}
 
 	bool isElement(){
