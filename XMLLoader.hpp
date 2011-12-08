@@ -288,6 +288,9 @@ public:
 		handler = new XMLHandler(&topnode);
 		parser->setContentHandler(handler);
 		parser->parse(filename);
+		if(topnode==NULL){
+			throw XMLLoaderException(NoGoodFile);
+		}
 	}
 
 	~XMLLoader(){
@@ -406,7 +409,7 @@ private:
 		}
 	};
 	enum ExceptionType{
-		FileNonExistence, NoSuchTag
+		FileNonExistence, NoSuchTag,NoGoodFile
 	};
 };
 
