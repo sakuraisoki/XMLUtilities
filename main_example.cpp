@@ -7,12 +7,13 @@
 //============================================================================
 
 #include <iostream>
-#include "XMLLoader.hpp"
+#include "XMLLoader.h"
 #include "Caster.hpp"
 using namespace std;
 
 int main(){
-	XMLLoader xml = XMLLoader("config.xml");
+        XMLNode* top;
+	XMLLoader xml(&top,"config.xml");
 
 	std::vector<XMLNode*> rev;
 	rev = xml.getNodes("Configurations/Configuration");
