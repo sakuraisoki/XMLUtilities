@@ -19,24 +19,3 @@
 	</Configuration>
 
 </Configurations>
-
-<Revisions> 
-        <Revision date="2011/06/12">
-        Only the ASCII is supported.
-        Same tags at the same depth/rank/hierarchy are forbidden; younger one is overwritten.
-        </Revision>
-        <Revision date="2011/06/13">
-        second rev.
-        </Revision>
-        <Revision date="2011/06/14">
-        third rev.
-        </Revision>
-</Revisions>
-
-
-
-
-GitHub Links
-GitHub
-About
-Blog
