@@ -11,7 +11,7 @@
 #ifndef NSXML
 
 
-#include "XMLNode.hpp"
+#include "XMLNode.h"
 #include "XMLHandlerX.h"
 
 #include <iostream>

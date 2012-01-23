@@ -1,15 +1,6 @@
-/*
- * XMLLoader.hpp
- *
- *  Created on: 2011/06/12
- *      Author: sakurai
- */
-
 #ifndef NSXML
 
 #include "XMLLoader.h"
-
-#include "XMLNode.hpp"
 
 XMLLoader::XMLLoader(XMLNode** ptop, const char* fname){
 	handler = NULL;

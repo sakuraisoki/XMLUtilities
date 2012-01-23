@@ -1,15 +1,6 @@
-/*
- * XMLHandler.cpp
- *
- *  Created on: 2012/01/19
- *      Author: sakurai
- */
-
 #ifndef NSXML
 
-#include "XMLNode.hpp"
 #include "XMLHandlerX.h"
-
 
 XMLHandlerX::XMLHandlerX(XMLNode** top){
 	topnode = top;

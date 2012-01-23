@@ -10,7 +10,7 @@
 
 //#define NSXML
 
-#include "XMLNode.hpp"
+#include "XMLNode.h"
 
 #ifdef NSXML
 #import "NSParser.h"

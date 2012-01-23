@@ -6,17 +6,6 @@
 //  Copyright 2012 __MyCompanyName__. All rights reserved.
 //
 
-
-/*
- * XMLLoader.hpp
- *
- *  Created on: 2011/06/12
- *      Author: sakurai
- */
-
-//#ifndef XMLLOADER_HPP_
-//#define XMLLOADER_HPP_
-
 #import "NSParser.h"
 
 #include <iostream>

@@ -1,5 +1,5 @@
 /*
- * XMLHandlerX.hpp
+ * XMLHandlerX.h
  *
  *  Created on: 2012/01/19
  *      Author: sakurai
@@ -11,7 +11,7 @@
 
 #ifndef NSXML
 
-#include "XMLNode.hpp"
+#include "XMLNode.h"
 
 #include <iostream>
 #include <map>

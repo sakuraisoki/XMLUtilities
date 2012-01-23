@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#include "XMLNode.hpp"
+#include "XMLNode.h"
 
 @interface NSParser: NSObject { 
 	XMLNode** topnode;
