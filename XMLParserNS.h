@@ -1,12 +1,32 @@
 //
-//  NSParser.mm
+//  NSParser.h
 //  MyXML
 //
 //  Created by Soki Sakurai on 12/01/21.
 //  Copyright 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "NSParser.h"
+#import <Cocoa/Cocoa.h>
+#include "XMLNode.hpp"
+
+@interface XMLParserNS: NSObject {
+	XMLNode** topnode;
+	std::string filename;
+	int filesize;
+	std::stack<XMLNode*> nodestack;
+	std::string buf;
+	
+	NSXMLParser* parser;
+}
+
+- (void)setFileName: (char *)fname;
+- (std::string)getFileName;
+- (void)setTopNode: (XMLNode**)ptop; 
+- (XMLNode*)getTopNode;
+-(int) getFileSize;
+- (void)parse;
+@end 
+
 
 #include <iostream>
 #include <map>
@@ -14,7 +34,7 @@
 #include <stack>
 #include <fstream>
 
-@implementation NSParser
+@implementation XMLParserNS
 
 - (void)setFileName: (char *)fname{
 	filename = std::string(fname);
@@ -40,13 +60,13 @@
 - (void)parse{
 	XMLNode* dummytopnode = new XMLNode("DUMMYTOPNODE");
 	nodestack.push(dummytopnode);
-	
+
 	NSString* pathandfile = [[NSString alloc] initWithCString:filename.c_str() encoding:NSUTF8StringEncoding];
 	NSData *data = [NSData dataWithContentsOfFile:pathandfile];
 	parser = [[NSXMLParser alloc] initWithData:data];
-	
+
 	filesize = [data length];
-	
+
 	[parser setDelegate:self];
 	[parser setShouldProcessNamespaces:NO];
 	[parser setShouldReportNamespacePrefixes:NO];
@@ -58,7 +78,7 @@
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
-	char* name = (char*)[elementName UTF8String];	
+	char* name = (char*)[elementName UTF8String];
 	XMLNode* nexttopnode = new XMLNode(std::string(name));
 	XMLNode* currenttopnode = nodestack.top();
 	currenttopnode->addchild(std::string(name),nexttopnode);
@@ -71,13 +91,13 @@
 		NSString* valstr = [attributeDict objectForKey:keystr];
 		char* keyname = (char *)[keystr UTF8String];
 		char* valuename = (char *)[valstr UTF8String];
-		
+
 		nexttopnode->addAttribute(std::string(keyname),std::string(valuename));
 	}
 	buf = "";
 }
 
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {	
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
 	char* name = (char*)[string UTF8String];
 	std::string val = std::string(name);
 	buf = buf+val;
@@ -106,4 +126,3 @@
 }
 
 @end
-
