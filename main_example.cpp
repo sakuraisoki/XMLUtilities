@@ -7,7 +7,7 @@
 //============================================================================
 
 #include <iostream>
-#include "XMLLoader.h"
+#include "XMLLoader.hpp"
 #include "Caster.hpp"
 using namespace std;
 

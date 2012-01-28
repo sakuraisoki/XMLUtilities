@@ -20,7 +20,6 @@
 #include <stack>
 #include <fstream>
 
-
 class XMLLoader {
 public:
 	XMLLoader(XMLNode** ptop, const char* fname);
@@ -32,7 +31,6 @@ private:
 
 	XMLParserNS *parser;
 	std::string buf;
-
 
 public:
 	void load();
@@ -57,8 +55,8 @@ public:
 		XMLLoaderException(int type) {
 		}
 	};
-	enum ExceptionType{
-		NoSuchFile, NoSuchTag,NoGoodFile
+	enum ExceptionType {
+		NoSuchFile, NoSuchTag, NoGoodFile
 	};
 };
 
@@ -80,13 +78,12 @@ XMLLoader::XMLLoader(XMLNode** ptop, const char* fname) {
 XMLLoader::~XMLLoader() {
 }
 
-
-std::string XMLLoader::getFileName(){
+std::string XMLLoader::getFileName() {
 	return filename;
 }
 
-void XMLLoader::load(){
-	if(filename=="")
+void XMLLoader::load() {
+	if (filename == "")
 		*ptopnode = NULL;
 
 	parser = [[XMLParserNS alloc] init];
@@ -95,11 +92,10 @@ void XMLLoader::load(){
 
 	[parser parse];
 
-	if(*ptopnode==NULL){
+	if (*ptopnode == NULL) {
 		throw XMLLoaderException(NoGoodFile);
 	}
 }
-
 
 void XMLLoader::setTopNode(XMLNode** ptop) {
 	ptopnode = ptop;
@@ -194,11 +190,8 @@ std::vector<XMLNode*> XMLLoader::getNodes(std::string nodename) {
 	return target->getChildren(whole_tag);
 }
 
-
 std::vector<XMLNode*> XMLLoader::operator[](std::string nodename) {
 	return getNodes(nodename);
 }
-
-
 
 #endif /* XMLLOADER_H_ */
