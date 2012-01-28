@@ -1,9 +1,26 @@
-A usage is stated in main_example.cpp.
+A C++/Objective-C++ library for reading/writing XML files.
+Like boost libraries, this is just an assembly of header files,
+so that users do not have to compile them in advance.
+#C++ case
+It requires Xerces-C++ library.
+To utilize, add XMLUtility to include path (-I/WhereYouInstalled),
+and write
+#include "XMLLoader.hpp"
+in your code.
 
-To run main_example.cpp, 
+#Objective-C++ case
+It just requires a MacOS environment (and Xcode).
+To utilize in Xcode, add "/WhereYouInstalled" to "User header path" in project settings,
+and write
+#define XMLUTILITIES_NSXMLPARSER
+#include "XMLLoader.hpp"
+in your code.
 
+There is a sample program "main_example.cpp".
+To run this,
 $ export XERCESDIR=???	# Where you installed xerces
 $ g++ main_example.cpp -I/$XERCESDIR/include -L/$XERCESDIR/lib -lxerces-c -o main_example
+
 
 <Revisions>
 	<Revision comitter="Soki Sakurai" date="2011/06/12">
