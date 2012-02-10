@@ -29,7 +29,7 @@ private:
 	bool iselement;
 
 public:
-	XMLNode(std::string name, std::string valuestr="") {
+	XMLNode(std::string name = "", std::string valuestr = "") {
 		nodename = name;
 		children.clear();
 		NumberOfChildren = 0;
