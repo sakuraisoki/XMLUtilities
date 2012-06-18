@@ -59,7 +59,7 @@ public:
 		}
 	}
 
-	void dump(std::ostream& Stream, int depth) {
+	void dump(std::ostream& Stream, int depth=0) {
 		std::string tabs = "";
 		for (int i = 0; i < depth; i++) {
 			tabs = tabs + std::string("\t");
