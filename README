@@ -39,7 +39,8 @@ As mentioned above, add "-I/(XMLUTILITIES_PATH)/include" flag manually
 or in Xcode preferences.
 
 
-#Utility and sample programs
+
+Utility and sample programs:
 A sample program "main_example.cpp" is in src directory.
 To build this,
 $ export XERCESDIR=??	# Where you installed xerces
@@ -51,6 +52,8 @@ To build and install these (including main_example.cpp),
 $ export XERCESDIR=??	# Where you installed xerces
 $ export READLINEDIR=??	# Where you installed xerces
 $ g++ main_example.cpp -I/$XERCESDIR/include -L/$XERCESDIR/lib -lxerces-c -o main_example
+
+
 
 
 <Revisions>
