@@ -49,10 +49,12 @@ or type 'make' as followings.
 
 Utility programs are also in src directory.
 To build and install these (including main_example.cpp),
-$ export XERCESDIR=??	# Where you installed xerces
-$ export READLINEDIR=??	# Where you installed xerces
-$ g++ main_example.cpp -I/$XERCESDIR/include -L/$XERCESDIR/lib -lxerces-c -o main_example
-
+$ export XMLUTILITIES_PATH=??	# Where you installed XMLUtilities.
+$ export XERCESDIR=??		# Where you installed xerces
+$ export READLINEDIR=??		# Where you installed readline
+$ make
+$ make install
+then binaries are installed in XMLUTILITIES_PATH/bin.
 
 
 
