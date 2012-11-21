@@ -44,13 +44,22 @@ private:
 #endif
 
 public:
-	XMLLoader(XMLNode** ptop, const char* fname) {
+	XMLLoader(XMLNode** ptop=NULL, const char* fname=NULL) {
 	#ifdef XMLUTILITIES_XERCERS
 		handler = NULL;
 		parser = NULL;
 	#endif
-		ptopnode = ptop;
+		if(ptop!=NULL){
+			ptopnode = ptop;
+		}
+		else{
+			return;
+		}
 
+		if(fname==NULL){
+			filename = "";
+			return;
+		}
 		std::ifstream file(fname);
 		if (!file.is_open()) {
 			file.close();
@@ -113,6 +122,32 @@ public:
 
 	void dumpAll(std::ostream& Stream) {
 		(*ptopnode)->dump(Stream, 0);
+	}
+
+#ifdef XMLUTILITIES_XERCERS
+	void loadFromString(XMLNode** ptop, std::string xmlstring){
+		ptopnode = ptop;
+		if(parser==NULL){
+			parser = new XMLParserX();
+		}
+		if(handler==NULL){
+			handler = new XMLHandlerX(ptopnode);
+		}
+		else{
+			handler->setTopNodePointer(ptopnode);
+		}
+		parser->setHandler(handler);
+		parser->parseString(xmlstring);
+		if (*ptopnode == NULL) {
+			throw XMLLoaderException(NoGoodFile);
+		}
+	}
+#endif
+
+	void loadFromFile(XMLNode** ptop, std::string fname){
+		ptopnode = ptop;
+		filename = std::string(fname);
+		load();
 	}
 
 	std::string getValueOf(std::string tag_hierarchy) {

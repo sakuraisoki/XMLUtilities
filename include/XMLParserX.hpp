@@ -24,6 +24,7 @@
 #include <xercesc/sax2/DefaultHandler.hpp>
 #include <xercesc/sax2/SAX2XMLReader.hpp>
 #include <xercesc/sax2/XMLReaderFactory.hpp>
+#include <xercesc/framework/MemBufInputSource.hpp>
 
 
 struct XMLHandlerX: public xercesc::DefaultHandler {
@@ -32,6 +33,10 @@ struct XMLHandlerX: public xercesc::DefaultHandler {
         XMLNode* dummytopnode = new XMLNode("DUMMYTOPNODE");
         nodestack.push(dummytopnode);
     }
+
+	void setTopNodePointer(XMLNode** top){
+		topnode = top;
+	}
 
 	void startElement(const XMLCh* const uri, const XMLCh* const localname, const XMLCh* const qname,
                       const xercesc::Attributes& attrs){
@@ -110,6 +115,11 @@ public:
         }
         parser->parse(filename.c_str());
     }
+
+	void parseString(std::string xmlstring){
+		xercesc::MemBufInputSource xmlstringbuf((const XMLByte*)xmlstring.c_str(), xmlstring.size(),"temporal");
+		parser->parse(xmlstringbuf);
+	}
     
 	void setHandler(XMLHandlerX* phandler){
         handler = phandler;
