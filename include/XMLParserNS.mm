@@ -44,6 +44,21 @@
 	[parser parse];
 }
 
+- (void)parseString: (NSString*)xmlstring {
+	XMLNode* dummytopnode = new XMLNode("DUMMYTOPNODE");
+	nodestack.push(dummytopnode);
+    
+	NSData *data = [xmlstring dataUsingEncoding:NSUTF8StringEncoding];
+	parser = [[NSXMLParser alloc] initWithData:data];
+    
+	[parser setDelegate:self];
+	[parser setShouldProcessNamespaces:NO];
+	[parser setShouldReportNamespacePrefixes:NO];
+    //	[parser setShouldResolveExternalEntites:NO];
+	[parser parse];
+}
+
+
 -(void)parserDidStartDocument:(NSXMLParser *)parser {
 }
 

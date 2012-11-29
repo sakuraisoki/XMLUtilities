@@ -142,8 +142,24 @@ public:
 			throw XMLLoaderException(NoGoodFile);
 		}
 	}
-#endif
+    
+#else
+	void loadFromString(XMLNode** ptop, std::string xmlstring){
 
+        ptopnode = ptop;
+		if(parser==NULL){
+            parser = [[XMLParserNS alloc] init];
+		}
+		[parser setTopNode:ptopnode];
+        NSString* buf = [[NSString alloc] initWithCString:xmlstring.c_str() encoding:NSUTF8StringEncoding];
+		[parser parseString:buf];
+		if (*ptopnode == NULL) {
+			throw XMLLoaderException(NoGoodFile);
+		}
+	}
+#endif
+    
+    
 	void loadFromFile(XMLNode** ptop, std::string fname){
 		ptopnode = ptop;
 		filename = std::string(fname);

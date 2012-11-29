@@ -25,4 +25,5 @@
 - (XMLNode*)getTopNode;
 -(int) getFileSize;
 - (void)parse;
+- (void)parseString: (NSString*)xmlstring;
 @end
