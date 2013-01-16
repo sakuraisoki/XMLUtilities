@@ -53,11 +53,34 @@ public:
 		 */
 	}
 
+	void destroy(){
+		clearAll();
+		delete this;
+	}
+
 	void clearAll(){
 		std::map<std::string,XMLNode*>::iterator end = children.end();
 		for(std::map<std::string,XMLNode*>::iterator itr = children.begin();itr!=end;itr++){
 			delete itr->second;
 		}
+	}
+
+	XMLNode* clone(){
+		XMLNode* cloned = new XMLNode(nodename, value);
+
+		std::map<std::string,std::string>::iterator itrattrend = attributes.end();
+		for(std::map<std::string,std::string>::iterator itrattr = attributes.begin();itrattr!=itrattrend;itrattr++){
+			cloned->addAttribute(itrattr->first, itrattr->second);
+		}
+
+		std::map<std::string,XMLNode*>::iterator end = children.end();
+		for(std::map<std::string,XMLNode*>::iterator itr = children.begin();itr!=end;itr++){
+			XMLNode* child = (XMLNode*)itr->second;
+			XMLNode* clonedchild = child->clone();
+			cloned->addchild(itr->first, clonedchild);
+		}
+
+		return cloned;
 	}
 
 	void dump(std::ostream& Stream, int depth = 0){
