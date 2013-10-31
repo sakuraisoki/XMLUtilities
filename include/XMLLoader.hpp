@@ -89,8 +89,12 @@ public:
 			*ptopnode = NULL;
 
 	#ifdef XMLUTILITIES_XERCERS
-		parser = new XMLParserX(std::string(filename));
-		handler = new XMLHandlerX(ptopnode);
+		if(parser==NULL){
+			parser = new XMLParserX(std::string(filename));
+		}
+		if(handler==NULL){
+			handler = new XMLHandlerX(ptopnode);
+		}
 		parser->setHandler(handler);
 		parser->setFileName(filename);
 		parser->parse();
