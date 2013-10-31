@@ -49,6 +49,9 @@ public:
 		handler = NULL;
 		parser = NULL;
 	#endif
+#ifdef XMLUTILITIES_NSXMLPARSER
+		parser=NULL;
+#endif
 		if(ptop!=NULL){
 			ptopnode = ptop;
 		}
@@ -151,7 +154,7 @@ public:
             parser = [[XMLParserNS alloc] init];
 		}
 		[parser setTopNode:ptopnode];
-        NSString* buf = [[NSString alloc] initWithCString:xmlstring.c_str() encoding:NSUTF8StringEncoding];
+        NSString* buf = [[NSString alloc] initWithCString:xmlstring.c_str() encoding:NSASCIIStringEncoding];
 		[parser parseString:buf];
 		if (*ptopnode == NULL) {
 			throw XMLLoaderException(NoGoodFile);
