@@ -12,15 +12,31 @@ MacOS environment
 #Only for utility and sample programs
 GNU readline
 
+Install:
+To install library header files to your include/ directory, do the following.
+	cd XMLUtilities/
+	mkdir build
+	cd build
+	cmake -DCMAKE_INSTALL_PREFIX=/usr/local ..
+	make install
+
+This will install all header files to /usr/local/include/XMLUtilities. If you want to install to, e.g., $HOME/include, do
+	cmake -DCMAKE_INSTALL_PREFIX=$HOME ..
+instead.
 
 Usage:
-In both cases below, "-I/(XMLUTILITIES_PATH)/include" flag is necessary when you build your sources.
+If you installed the header files to the default header search path (e.g. /usr/local/include), the compiler will automatically find necessary header files. If non-default path is used in installation, header search path option like "-I/$(XMLUTILITIES_PATH)/include" will be necessary to compile your source files.
 #C++ case
 It requires Xerces-C++ library.
 To utilize, add XMLUtility to include path (-I/WhereYouInstalled),
 and write
-#include "XMLLoader.hpp"
+	
+	#include "XMLUtilities/XMLUtilities.hpp"
+	or
+	#include "XMLUtilities/XMLUtilities.hh"
+
 in your code.
+
 When you build your programs, please add an include flag and linker flags like
 	...
 	CXXFLAGS += -I/$(XERCESDIR)/include -I/(XMLUTILITIES_PATH)/include
@@ -32,13 +48,13 @@ When you build your programs, please add an include flag and linker flags like
 It just requires a MacOS environment (and Xcode).
 To utilize in Xcode, add "/WhereYouInstalled" to "User header path" in project settings,
 and write
-#define XMLUTILITIES_NSXMLPARSER
-#include "XMLLoader.hpp"
+	#define XMLUTILITIES_NSXMLPARSER
+	#include "XMLUtilities/XMLUtilities.hpp"
+	or 
+	#include "XMLUtilities/XMLUtilities.hh"
 in your code.
 As mentioned above, add "-I/(XMLUTILITIES_PATH)/include" flag manually
 or in Xcode preferences.
-
-
 
 Utility and sample programs:
 A sample program "main_example.cpp" is in src directory.
