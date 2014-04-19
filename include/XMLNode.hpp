@@ -4,7 +4,7 @@
  *  Created on: 2012/01/19
  *      Author: sakurai
  */
-
+aa
 #ifndef XMLNODE_HPP_
 #define XMLNODE_HPP_
 
@@ -193,6 +193,7 @@ public:
 				}
 			}
 		}
+        throw XMLNodeException(-1);
 	}
 
 	XMLNode& attr(std::string attrName, std::string attrValue) {
