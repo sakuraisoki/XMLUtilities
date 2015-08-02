@@ -4,7 +4,6 @@
  *  Created on: 2012/01/19
  *      Author: sakurai
  */
-aa
 #ifndef XMLNODE_HPP_
 #define XMLNODE_HPP_
 
